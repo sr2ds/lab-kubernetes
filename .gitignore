@@ -1,15 +1,15 @@
 .DS_Store
-kube-app/node_modules
-kube-app/dist
+app-env/kube-app/node_modules
+app-env/kube-app/dist
 
 # local env files
-kube-app/.env.local
-kube-app/.env.*.local
+app-env/kube-app/.env.local
+app-env/kube-app/.env.*.local
 
 # Log files
-kube-app/npm-debug.log*
-kube-app/yarn-debug.log*
-kube-app/yarn-error.log*
+app-env/kube-app/npm-debug.log*
+app-env/kube-app/yarn-debug.log*
+app-env/kube-app/yarn-error.log*
 
 # Editor directories and files
 *.idea
