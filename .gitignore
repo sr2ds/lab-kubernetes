@@ -1,0 +1,21 @@
+.DS_Store
+kube-app/node_modules
+kube-app/dist
+
+# local env files
+kube-app/.env.local
+kube-app/.env.*.local
+
+# Log files
+kube-app/npm-debug.log*
+kube-app/yarn-debug.log*
+kube-app/yarn-error.log*
+
+# Editor directories and files
+*.idea
+*.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

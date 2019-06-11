@@ -1,0 +1,18 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kube-deployment-obj
+  labels:
+    app: kube-app
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: kube-app-pod
+    spec:
+      containers:
+      - name: kube-app
+        image: srdavidsilva/sr2ds:dockerize-vuejs-app
+        ports:
+        - containerPort: 8080
