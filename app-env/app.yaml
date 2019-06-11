@@ -1,0 +1,49 @@
+# Pod Basico com a Aplicação
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: kube-app
+  labels:
+   app: kube-app
+spec:
+  containers:
+   - name: kube-app
+     image: srdavidsilva/sr2ds:dockerize-vuejs-app
+     ports:
+     - containerPort: 8080
+---
+
+# Deployment para tornar o Pod escalável
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kube-deployment-obj
+  labels:
+    app: kube-app
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: kube-app-pod
+    spec:
+      containers:
+      - name: kube-app
+        image: srdavidsilva/sr2ds:dockerize-vuejs-app
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+
+# LoadBalance 
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-loadbalance-obj
+spec:
+  type: LoadBalancer
+  ports:
+   - port: 8080
+  selector:
+    name: kube-app-pod
+

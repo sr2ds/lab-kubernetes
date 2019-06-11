@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: jenkins
+  labels:
+   app: jenkins
+spec:
+  containers:
+   - name: jenkins
+     image: jenkins/jenkins:lts
+     ports:
+     - containerPort: 8080
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  labels:
+    app: jenkins-deployment
+spec:
+  replicas: 1
+  template:
+   metadata: 
+    name: jenkins
+     labels:
+      name: jenkins
+   spec:
+    containers:
+    - name: jenkins
+      image: jenkins/jenkins:lts
+      ports:
+      - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-loadbalance
+spec:
+  type: LoadBalancer
+  ports:
+   - port: 8080
+  selector:
+    name: jenkins
+
