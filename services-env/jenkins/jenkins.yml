@@ -3,7 +3,7 @@ kind: Pod
 metadata: 
   name: jenkins
   labels:
-   app: jenkins
+   name: jenkins
 spec:
   containers:
    - name: jenkins
@@ -11,32 +11,50 @@ spec:
      ports:
      - containerPort: 8080
 ---
+## StatefulSet para possibilitar persistencia 
 apiVersion: apps/v1beta1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: jenkins-deployment
-  labels:
-    app: jenkins-deployment
+  name: statefulset-jenkins
 spec:
-  replicas: 1
+  serviceName: statefulset-jenkins
   template:
-   metadata: 
-    name: jenkins
-     labels:
-      name: jenkins
-   spec:
-    containers:
-    - name: jenkins
-      image: jenkins/jenkins:lts
-      ports:
-      - containerPort: 8080
+    metadata:
+      labels:
+        name: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+        - containerPort: 8080
+        - containerPort: 22
+        volumeMounts:
+        - name: jenkins-config-volume
+          mountPath: /var/jenkins_home
+      volumes:  
+        - name: jenkins-config-volume
+          persistentVolumeClaim:
+            claimName: jenkins-config-volume
 ---
+## Permissoes para o Volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-config-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources: 
+    requests:
+      storage: 3Gi
+---
+# Serviço de acesso
 apiVersion: v1
 kind: Service
 metadata:
-  name: jenkins-loadbalance
+  name: jenkins-loadbalancer
 spec:
-  type: LoadBalancer
   ports:
    - port: 8080
   selector:

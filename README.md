@@ -9,7 +9,7 @@ Stack App: Vuejs, Laravel
 
 Bloco StateFul auxiliar para a aplicação, o modelo deste  plano conterá:
 
-1. Jenkins;
+1. Jenkins (rodando, porém não persiste configurações entre os pods ainda)
 2. GrayLog;
 3. Banco de Dados (Qualquer para teste)
 
